@@ -10,7 +10,6 @@ function AssetTableRow(props) {
   const { dao, connectWeb3, open, onClick, legacy, web3Global } = props;
 
   const { address, tableName } = tokenInfo[dao.id];
-
   const myRef = useRef(null);
   const location = useLocation();
   useEffect(() => {
@@ -52,7 +51,11 @@ function AssetTableRow(props) {
           )}
         </div>
         <div className="main-table__td">
-          <APY tokenAddress={address} decimals={0} />
+          {dao.name === "Berezka ETH" ? (
+            "—"
+          ) : (
+            <APY tokenAddress={address} decimals={0} />
+          )}
         </div>
         <div className="main-table__td">
           <div className="main-table__dropdown-btn" ref={myRef} />
