@@ -1,12 +1,18 @@
 import React from "react";
 import { round } from "./round";
 import { useTokenData } from "./useTokenData";
+import { useBlastData } from "./useBlastData";
+import { checkIsBlastDao } from "./checkIsBlastDao";
 
 export const DaoLiquidity = (props) => {
   const { tokenAddress, separator, inBaseToken } = props;
   const { loading, merged } = useTokenData(tokenAddress);
 
-  if (loading) {
+  const isBlastDao = checkIsBlastDao(tokenAddress);
+
+  const { blastTotal, isLoading: isBlasdataLoading } = useBlastData();
+
+  if (loading || (isBlastDao && isBlasdataLoading)) {
     return <>...</>;
   }
 
@@ -19,10 +25,12 @@ export const DaoLiquidity = (props) => {
 
   const prefix = inBaseToken ? "" : `$ `;
 
-  const amount = Number.parseInt(
-    round(Number.parseFloat(currentLiquidity) / 10 ** 18 / 10 ** 6, 0) -
-      (currentCarry > 0 ? currentCarry : 0)
-  );
+  const amount = isBlastDao
+    ? blastTotal.usd
+    : Number.parseInt(
+        round(Number.parseFloat(currentLiquidity) / 10 ** 18 / 10 ** 6, 0) -
+          (currentCarry > 0 ? currentCarry : 0)
+      );
 
   return (
     <>

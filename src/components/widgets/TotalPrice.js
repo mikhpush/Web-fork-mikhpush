@@ -1,6 +1,7 @@
 import React from "react";
 import { useTokenDatas } from "./useTokenData";
 import { round } from "./round";
+import { useBlastData } from "./useBlastData";
 
 const uniqueBy = (x, f) =>
   Object.values(x.reduce((a, b) => ((a[f(b)] = b), a), {}));
@@ -30,14 +31,18 @@ const computeSum = (datas) => {
 
 const TotalPrice = (props) => {
   const { tokens } = props;
-  const { loading, merged } = useTokenDatas(tokens);
+  const noBlastTokens = tokens.filter(
+    (token) => token !== "0x50987cf58b7351867952912Cf87c75AB2a8a60A4"
+  );
+  const { loading, merged } = useTokenDatas(noBlastTokens);
 
-  if (loading || !merged) {
+  const { blastTotal, isLoading: isBlasdataLoading } = useBlastData();
+
+  if (loading || !merged || isBlasdataLoading) {
     return <>...</>;
   }
-
-  const totalPrice = computeSum(merged);
-
+  const noBlastTotalPrice = computeSum(merged);
+  const totalPrice = noBlastTotalPrice + blastTotal.usd;
   return (
     <>
       ${" "}

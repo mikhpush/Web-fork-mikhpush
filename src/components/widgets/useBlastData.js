@@ -12,14 +12,11 @@ const googleFileId = process.env.REACT_APP_GOOGLE_SHEETS_ID;
 
 const googleDoc = new GoogleSpreadsheet(googleFileId);
 
-export const useBlastData = (address, token) => {
+export const useBlastData = (address) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const isBlastDao = checkIsBlastDao(token);
   useEffect(() => {
-    if (isBlastDao) {
-      fetchSpreadSheet();
-    }
+    fetchSpreadSheet();
   }, []);
 
   const fetchSpreadSheet = async () => {
