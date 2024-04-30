@@ -70,7 +70,15 @@ function TokenDashboard(props) {
             </div>
           </div>
           <div className="info-main__value">
-            <APY tokenAddress={tokenAddress} decimals={2} isLegacy={isLegacy} />
+            {tokenInfo[token].fullName === "Berezka ETH" ? (
+              "—"
+            ) : (
+              <APY
+                tokenAddress={tokenAddress}
+                decimals={2}
+                isLegacy={isLegacy}
+              />
+            )}
           </div>
         </div>
 
