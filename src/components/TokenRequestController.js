@@ -653,12 +653,11 @@ function TokenRequestController(props) {
 
           const params = {
             address: address,
-            amount:
-              Number.parseInt(
-                requestedAmountDecimals
-                  .div(new BN(10).pow(new BN(requestedTokenDecimals)))
-                  .toString(10)
-              ) / 100,
+            amount: Number.parseInt(
+              requestedAmountDecimals
+                .div(new BN(10).pow(new BN(requestedTokenDecimals)))
+                .toString(10)
+            ),
             token: requestedTokenSymbol.toUpperCase(),
             stable_token: offeredTokenSymbol.toUpperCase(),
             stable_amount:
