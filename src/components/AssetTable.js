@@ -24,8 +24,8 @@ const AssetTable = observer((props) => {
   return (
     <div className="section _full main-table _mb">
       <AssetTableHeader />
-      {daoesStore.getDaoesSelector() !== "undefined" &&
-        daoesStore.getDaoesSelector().map((dao) => {
+      {daoesStore.daoesSelector !== "undefined" &&
+        daoesStore.daoesSelector.map((dao) => {
           const { id } = dao;
           return (
             <AssetTableRow

@@ -8,9 +8,7 @@ const HeaderBalance = observer((props) => {
   return (
     <div className="balance">
       <div className="balance__amount">
-        {value || (
-          <TotalPrice tokens={daoesStore.getTokenAddressesSelector()} />
-        )}
+        {value || <TotalPrice tokens={daoesStore.tokenAddressesSelector} />}
       </div>
     </div>
   );

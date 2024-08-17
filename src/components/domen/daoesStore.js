@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, toJS } from "mobx";
 import { fetchDaos } from "../widgets/daoes";
 
 class DaoesStore {
@@ -12,22 +12,34 @@ class DaoesStore {
   tokens = [];
   defaultToken = [];
   tokenAddresses = [];
+  targets = [];
 
-  getTokenInfoSelector = () => {
+  get tokenInfoSelector() {
     return this.tokenInfo;
-  };
+  }
 
-  getDaoesSelector = () => {
+  get daoesSelector() {
     return this.daoes;
-  };
+  }
 
-  getTokenAddressesSelector = () => {
+  get tokenAddressesSelector() {
     return this.tokenAddresses;
-  };
+  }
 
-  getTokensSelector = () => {
+  get tokensSelector() {
     return this.tokens;
-  };
+  }
+
+  // set userTargets(value) {
+  //   this.targets.push(value);
+  // }
+
+  setCount(value) {
+    this.targets.push(value);
+    console.log(value);
+    console.log(toJS(this.targets));
+    console.log(this.targets.length);
+  }
 
   async loadDaoes() {
     try {

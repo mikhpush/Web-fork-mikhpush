@@ -1,7 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { daoesStore } from "./domen/daoesStore";
+import { observer } from "mobx-react-lite";
 
-function Sidebar(props) {
+const Sidebar = observer((props) => {
   const { isBlocked } = props;
   return (
     <aside className="sidebar-menu">
@@ -20,13 +22,18 @@ function Sidebar(props) {
       </div>
       {!isBlocked ? (
         <nav className="sidebar-menu__items">
-          <NavLink className="sidebar-menu__item active" to="/account">
+          <NavLink
+            className="sidebar-menu__item active"
+            to="/account"
+            onClick={(evt) => daoesStore.setCount(evt.target.textContent)}
+          >
             My Account
           </NavLink>
           <NavLink
             activeClassName="none"
             className="sidebar-menu__item"
             to="/dashboard"
+            onClick={(evt) => daoesStore.setCount(evt.target.textContent)}
           >
             Dashboard
           </NavLink>
@@ -47,6 +54,6 @@ function Sidebar(props) {
       )}
     </aside>
   );
-}
+});
 
 export default Sidebar;

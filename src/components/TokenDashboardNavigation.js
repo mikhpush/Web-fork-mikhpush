@@ -11,9 +11,9 @@ const TokenDashboardNavigation = observer(() => {
     let isCancelled = false;
     const fn = async () => {
       const daoIds = await getAvailableDaos(
-        daoesStore.getDaoesSelector(),
-        daoesStore.getTokenInfoSelector(),
-        daoesStore.getTokensSelector()
+        daoesStore.daoesSelector,
+        daoesStore.tokenInfoSelector,
+        daoesStore.tokensSelector
       );
       if (!isCancelled) {
         setDaoIds(daoIds);
@@ -33,6 +33,7 @@ const TokenDashboardNavigation = observer(() => {
           key={token}
           className="breadcrumbs__item"
           to={`/dashboard/${token}`}
+          onClick={(evt) => daoesStore.setCount(evt.target.textContent)}
         >
           <div style={{ display: "flex" }}>
             <span>

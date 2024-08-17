@@ -57,13 +57,12 @@ export const fetchDaos = async () => {
 
 export const fetchDao = async (tokenAddress) => {
   // const daoes = await fetchDaos();
-  const daoes = daoesStore.getDaoesSelector();
+  const daoes = daoesStore.daoesSelector;
   let dao;
   if (tokenAddress) {
     dao = daoes.find(
       (dao) => dao.token.contract.toLowerCase() === tokenAddress.toLowerCase()
     );
-    console.log(toJS(dao.token.contract));
   }
   if (!dao) {
     console.error(`Unable to get DAO for token address ${tokenAddress}`);
