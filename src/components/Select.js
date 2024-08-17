@@ -33,7 +33,7 @@ function Select(props) {
           readOnly
         />
         <div className="select__value">
-          <img src={getCurrencyIconPath(value)} title alt="" />
+          <img src={getCurrencyIconPath(value)} alt="icon" />
           <span>{valueDisplay(value)}</span>
         </div>
       </div>
@@ -48,7 +48,7 @@ function Select(props) {
             }}
             href
           >
-            <img src={getCurrencyIconPath(option)} title alt="" />
+            <img src={getCurrencyIconPath(option)} alt="icon" />
             <span>{valueDisplay(option)}</span>
           </a>
         ))}

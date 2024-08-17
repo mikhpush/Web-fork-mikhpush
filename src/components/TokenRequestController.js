@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { tokenInfo, currencyInfo } from "./data/tokens";
+import { currencyInfo } from "./data/tokens";
 import { useTokenData } from "./widgets/useTokenData";
 import { round } from "./widgets/round";
 import { oracle } from "./widgets/oracle";
@@ -12,11 +12,13 @@ import { observer } from "mobx-react-lite";
 import { userStore } from "./domen/userStore";
 import { fetchExchangeRate } from "./services/daos";
 import Web3 from "web3";
+import { daoesStore } from "../components/domen/daoesStore";
 
 const WITHDRAW_CONTRACT = "0xCe90D38B084Aad57bc26C5C66F377d6DF7882846";
 const DEPOSIT_CONTRACT = "0xFb60632ec2508f7576843aca031ff6b4ecBC1Ab4";
 const TOKEN_REQUST_MIN_AMOUNT = 2900;
 const TOKEN_REQUST_MIN_AMOUNT_ETH = 0.8;
+const tokenInfo = daoesStore.tokenInfo;
 
 function toBigNumberString(num) {
   return ("" + +num).replace(
@@ -45,7 +47,7 @@ const checkDepositRestrictions = (
   }
 };
 
-function TokenRequestController(props) {
+const TokenRequestController = observer((props) => {
   const { dao, connectWeb3, Component } = props;
   const { walletAddress } = userStore;
   const { id: daoId, withdraw_enabled: withdrawEnabled } = dao;
@@ -704,6 +706,6 @@ function TokenRequestController(props) {
       acceptableTokens={acceptableTokensSymbols}
     />
   );
-}
+});
 
-export default observer(TokenRequestController);
+export default TokenRequestController;

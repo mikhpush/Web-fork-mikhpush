@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { getAvailableDaos } from "./widgets/daoes";
-import { tokenInfo } from "./data/tokens";
+// import { tokenInfo } from "./data/tokens";
+import { daoesStore } from "./domen/daoesStore";
+import { observer } from "mobx-react-lite";
 
-function TokenDashboardNavigation() {
+const TokenDashboardNavigation = observer(() => {
   const [daoIds, setDaoIds] = useState([]);
-
   useEffect(() => {
     let isCancelled = false;
     const fn = async () => {
-      const daoIds = await getAvailableDaos();
+      const daoIds = await getAvailableDaos(
+        daoesStore.getDaoesSelector(),
+        daoesStore.getTokenInfoSelector(),
+        daoesStore.getTokensSelector()
+      );
       if (!isCancelled) {
         setDaoIds(daoIds);
       }
@@ -30,7 +35,10 @@ function TokenDashboardNavigation() {
           to={`/dashboard/${token}`}
         >
           <div style={{ display: "flex" }}>
-            <span>{tokenInfo[token].fullName || tokenInfo[token].name}</span>
+            <span>
+              {daoesStore.tokenInfo[token].fullName ||
+                daoesStore.tokenInfo[token].name}
+            </span>
             <div
               style={{
                 width: "1px",
@@ -44,6 +52,6 @@ function TokenDashboardNavigation() {
       ))}
     </div>
   );
-}
+});
 
 export default TokenDashboardNavigation;

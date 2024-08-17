@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { tokenInfo } from "./data/tokens";
+// import { tokenInfo } from "./data/tokens";
 import { fetchVaults } from "./widgets/daoes";
+import { daoesStore } from "./domen/daoesStore";
+import { observer } from "mobx-react-lite";
 
-function TokenOnChainValidation(props) {
+const TokenOnChainValidation = observer((props) => {
   const token = props.token;
+  const tokenInfo = daoesStore.tokenInfo;
 
   const [vaults, setVaults] = useState([]);
   useEffect(() => {
@@ -30,7 +33,7 @@ function TokenOnChainValidation(props) {
             style={{ zIndex: 2 }}
           >
             <div style={{ display: "flex" }}>
-              <span class="validation__button">
+              <span className="validation__button">
                 WALLET{vaults.length > 1 ? ` ${index + 1}` : ""}
               </span>
               {index !== vaults.length - 1 && (
@@ -42,6 +45,6 @@ function TokenOnChainValidation(props) {
       </div>
     </>
   );
-}
+});
 
 export default TokenOnChainValidation;

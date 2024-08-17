@@ -14,40 +14,88 @@ class Brands extends React.Component {
         </div>
         <div className="brands">
           <div className="brands__item">
-            <img className="brands__item-img" src="img/brand1.png" title alt />
+            <img
+              className="brands__item-img"
+              src="img/brand1.png"
+              alt="brand"
+            />
           </div>
           <div className="brands__item">
-            <img className="brands__item-img" src="img/brand2.png" title alt />
+            <img
+              className="brands__item-img"
+              src="img/brand2.png"
+              alt="brand"
+            />
           </div>
           <div className="brands__item">
-            <img className="brands__item-img" src="img/brand3.png" title alt />
+            <img
+              className="brands__item-img"
+              src="img/brand3.png"
+              alt="brand"
+            />
           </div>
           <div className="brands__item">
-            <img className="brands__item-img" src="img/brand4.png" title alt />
+            <img
+              className="brands__item-img"
+              src="img/brand4.png"
+              alt="brand"
+            />
           </div>
           <div className="brands__item">
-            <img className="brands__item-img" src="img/brand5.png" title alt />
+            <img
+              className="brands__item-img"
+              src="img/brand5.png"
+              alt="brand"
+            />
           </div>
           <div className="brands__item">
-            <img className="brands__item-img" src="img/brand6.png" title alt />
+            <img
+              className="brands__item-img"
+              src="img/brand6.png"
+              alt="brand"
+            />
           </div>
           <div className="brands__item">
-            <img className="brands__item-img" src="img/brand7.png" title alt />
+            <img
+              className="brands__item-img"
+              src="img/brand7.png"
+              alt="brand"
+            />
           </div>
           <div className="brands__item">
-            <img className="brands__item-img" src="img/brand8.png" title alt />
+            <img
+              className="brands__item-img"
+              src="img/brand8.png"
+              alt="brand"
+            />
           </div>
           <div className="brands__item">
-            <img className="brands__item-img" src="img/brand9.png" title alt />
+            <img
+              className="brands__item-img"
+              src="img/brand9.png"
+              alt="brand"
+            />
           </div>
           <div className="brands__item">
-            <img className="brands__item-img" src="img/brand10.png" title alt />
+            <img
+              className="brands__item-img"
+              src="img/brand10.png"
+              alt="brand"
+            />
           </div>
           <div className="brands__item">
-            <img className="brands__item-img" src="img/brand11.png" title alt />
+            <img
+              className="brands__item-img"
+              src="img/brand11.png"
+              alt="brand"
+            />
           </div>
           <div className="brands__item">
-            <img className="brands__item-img" src="img/brand12.png" title alt />
+            <img
+              className="brands__item-img"
+              src="img/brand12.png"
+              alt="brand"
+            />
           </div>
         </div>
       </section>

@@ -3,11 +3,12 @@ import { round } from "./round";
 import { useTokenData } from "./useTokenData";
 import { useBlastData } from "./useBlastData";
 import { checkIsBlastDao } from "./checkIsBlastDao";
+import { observer } from "mobx-react-lite";
+import { toJS } from "mobx";
 
-export const DaoLiquidity = (props) => {
-  const { tokenAddress, separator, inBaseToken } = props;
+export const DaoLiquidity = observer((props) => {
+  const { tokenAddress, separator, inBaseToken, dao } = props;
   const { loading, merged } = useTokenData(tokenAddress);
-
   const isBlastDao = checkIsBlastDao(tokenAddress);
 
   const { blastTotal, isLoading: isBlasdataLoading } = useBlastData();
@@ -17,11 +18,11 @@ export const DaoLiquidity = (props) => {
   }
 
   const currentLiquidity = inBaseToken
-    ? merged[0].totalPriceInBaseToken
-    : merged[0].totalPrice;
+    ? merged[0]?.totalPriceInBaseToken
+    : merged[0]?.totalPrice;
   const currentCarry = inBaseToken
-    ? merged[0].totalCarryInBaseToken
-    : merged[0].totalCarry;
+    ? merged[0]?.totalCarryInBaseToken
+    : merged[0]?.totalCarry;
 
   const prefix = inBaseToken ? "" : `$ `;
 
@@ -41,4 +42,4 @@ export const DaoLiquidity = (props) => {
         .replace(/\B(?=(\d{3})+(?!\d))/g, separator || ".")}
     </>
   );
-};
+});

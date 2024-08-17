@@ -1,5 +1,5 @@
 import React from "react";
-import { tokenInfo } from "./data/tokens";
+// import { tokenInfo } from "./data/tokens";
 import { admins } from "./data/admin";
 
 import { TokenAmount } from "./widgets/TokenAmount";
@@ -10,17 +10,21 @@ import TokenAmountGraph from "./widgets/TokenAmountGraph";
 import PortfolioPartsGraph from "./widgets/PortfolioPartsGraph";
 import PortfolioParts from "./widgets/PortfolioParts";
 import TokenCarry from "./widgets/TokenCarry";
+import { daoesStore } from "./domen/daoesStore";
+import { observer } from "mobx-react-lite";
 
-function TokenDashboard(props) {
+const TokenDashboard = observer((props) => {
+  const tokenInfo = daoesStore.tokenInfo;
   const token = props.match.params.id;
   const { web3Global, address } = props;
   const tokenAddress = tokenInfo[token].address;
   const isLegacy = tokenInfo[token].isLegacy;
   const baseCurrency = tokenInfo[token].baseTokenSymbol;
   const isAdmin = address && admins.includes(address.toLowerCase());
+
   return (
     <>
-      <div class="info-carry">
+      <div className="info-carry">
         {`Accumulated Carry: `}
         <TokenCarry
           tokenAddress={tokenAddress}
@@ -77,6 +81,7 @@ function TokenDashboard(props) {
                 tokenAddress={tokenAddress}
                 decimals={2}
                 isLegacy={isLegacy}
+                apy={tokenInfo[token].apy}
               />
             )}
           </div>
@@ -163,6 +168,6 @@ function TokenDashboard(props) {
       </div>
     </>
   );
-}
+});
 
 export default TokenDashboard;

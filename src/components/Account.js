@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from "react";
 import TokenTableInfo from "./widgets/TokenTableInfo";
 import { fetchTokensFull } from "./widgets/daoes";
+import { daoesStore } from "./domen/daoesStore";
+import { observer } from "mobx-react-lite";
 
-function Account(props) {
+const Account = observer((props) => {
   const { web3Global, address, connectWeb3, setGlobalTotal } = props;
   const [daos, setDaos] = useState([]);
 
   useEffect(() => {
     let isCancelled = false;
     const fn = async () => {
-      const daos = await fetchTokensFull();
+      const daos = await fetchTokensFull(
+        daoesStore.daoes,
+        daoesStore.tokenInfo
+      );
       if (!isCancelled) {
         setDaos(daos);
       }
@@ -47,6 +52,6 @@ function Account(props) {
       </section>
     </div>
   );
-}
+});
 
 export default Account;

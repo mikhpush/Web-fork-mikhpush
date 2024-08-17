@@ -1,9 +1,7 @@
-export const defaultToken = [];
-export const tokenInfo = {};
-
-export const tokens = [];
-
-export const tokenAddresses = [];
+// export const defaultToken = [];
+// export const tokenInfo = {};
+// export const tokens = [];
+// export const tokenAddresses = [];
 
 export const tokenIcons = {
   "96c0154b-ac5b-30d7-7b2a-483897c8d800": {
@@ -62,10 +60,10 @@ export const currencyInfo = {
   },
 };
 
-export const nameByAddress = (address) =>
-  [...tokens]
-    .map((token) => ({
-      ...tokenInfo[token],
-      name: token,
-    }))
-    .find((info) => info.address.toLowerCase() === address.toLowerCase()).name;
+// export const nameByAddress = (address) =>
+//   [...tokens]
+//     .map((token) => ({
+//       ...tokenInfo[token],
+//       name: token,
+//     }))
+//     .find((info) => info.address.toLowerCase() === address.toLowerCase()).name;

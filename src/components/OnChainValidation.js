@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { tokenInfo } from "./data/tokens";
+// import { tokenInfo } from "./data/tokens";
 import { fetchVaults } from "./widgets/daoes";
+import { daoesStore } from "./domen/daoesStore";
+import { observer } from "mobx-react-lite";
 
-function OnChainValidation(props) {
+const OnChainValidation = observer((props) => {
   const { requestedToken } = props;
+  const tokenInfo = daoesStore.tokenInfo;
 
   const [vaults, setVaults] = useState([]);
   useEffect(() => {
@@ -36,6 +39,6 @@ function OnChainValidation(props) {
       </tr>
     </>
   );
-}
+});
 
 export default OnChainValidation;

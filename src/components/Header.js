@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { defaultToken } from "./data/tokens";
+// import { defaultToken } from "./data/tokens";
+import { daoesStore } from "./domen/daoesStore";
+import { observer } from "mobx-react-lite";
 
-function Header(props) {
+const Header = observer((props) => {
   const { connectWeb3, disconnectWeb3, address } = props;
   const [scroll, setScroll] = useState(false);
+  const defaultToken = daoesStore.defaultToken;
 
   useEffect(
     () =>
@@ -67,7 +70,11 @@ function Header(props) {
             </div>
           </div>
         ) : (
-          <a className="desktop_only button _light" href onClick={connectWeb3}>
+          <a
+            className="desktop_only button _light"
+            href="#"
+            onClick={connectWeb3}
+          >
             Connect wallet
           </a>
         )}
@@ -76,13 +83,13 @@ function Header(props) {
           <Link className="button _light" to="/dashboard">
             Dashboard
           </Link>
-          <Link className="button" to={`/#${defaultToken[0]}`}>
+          <Link className="button" to={`/${defaultToken[0]}`}>
             Join Dao
           </Link>
         </div>
       </div>
     </header>
   );
-}
+});
 
 export default Header;

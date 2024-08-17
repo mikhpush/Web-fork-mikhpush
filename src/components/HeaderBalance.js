@@ -1,16 +1,19 @@
 import React from "react";
 import TotalPrice from "./widgets/TotalPrice";
-import { tokenAddresses } from "./data/tokens";
+import { daoesStore } from "./domen/daoesStore";
+import { observer } from "mobx-react-lite";
 
-function HeaderBalance(props) {
+const HeaderBalance = observer((props) => {
   const { value } = props;
   return (
     <div className="balance">
       <div className="balance__amount">
-        {value || <TotalPrice tokens={tokenAddresses} />}
+        {value || (
+          <TotalPrice tokens={daoesStore.getTokenAddressesSelector()} />
+        )}
       </div>
     </div>
   );
-}
+});
 
 export default HeaderBalance;

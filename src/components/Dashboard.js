@@ -2,12 +2,15 @@ import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import TokenDashboard from "./TokenDashboard";
 import TokenDashboardNavigation from "./TokenDashboardNavigation";
-import { defaultToken } from "./data/tokens";
+// import { defaultToken } from "./data/tokens";
 import { checkIsBlastDao } from "./widgets/checkIsBlastDao";
 import { TokenDashboardBlastDao } from "./TokenDashboardBlastDao";
+import { daoesStore } from "./domen/daoesStore";
+import { observer } from "mobx-react-lite";
 
-function Dashboard(props) {
+const Dashboard = observer((props) => {
   const { web3Global, address } = props;
+  const defaultToken = daoesStore.defaultToken;
 
   return (
     <div className="page dashboard">
@@ -44,6 +47,6 @@ function Dashboard(props) {
       </section>
     </div>
   );
-}
+});
 
 export default Dashboard;

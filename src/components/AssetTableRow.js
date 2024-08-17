@@ -1,18 +1,19 @@
 import React, { useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import AssetTableRowDropdown from "./AssetTableRowDropdown";
-import { tokenInfo, defaultToken } from "./data/tokens";
+// import { tokenInfo } from "./data/tokens";
 import APY from "./widgets/APY";
 import TokenPriceLegacy from "./widgets/legacy/TokenPriceLegacy";
 import { DaoLiquidity } from "./widgets/DaoLiquidity";
+import { observer } from "mobx-react-lite";
+import { daoesStore } from "./domen/daoesStore";
+import { toJS } from "mobx";
 
-function AssetTableRow(props) {
+const AssetTableRow = observer((props) => {
   const { dao, connectWeb3, open, onClick, legacy, web3Global } = props;
-
-  const { address, tableName } = tokenInfo[dao.id];
-
   const myRef = useRef(null);
   const location = useLocation();
+  const defaultToken = dao.defaultToken;
   useEffect(() => {
     if (
       myRef &&
@@ -41,21 +42,30 @@ function AssetTableRow(props) {
         <div className="main-table__td">
           <div className="main-table__td-row">
             <img className="main-table__icon" src="img/logo.png" alt="" />
-            <span>{tableName}</span>
+            <span>{dao.display_name}</span>
           </div>
         </div>
         <div className="main-table__td">
           {legacy ? (
-            <TokenPriceLegacy tokenAddress={address} />
+            <TokenPriceLegacy
+              tokenAddress={daoesStore.tokenInfo[dao.id].address}
+            />
           ) : (
-            <DaoLiquidity tokenAddress={address} />
+            <DaoLiquidity
+              tokenAddress={daoesStore.tokenInfo[dao.id].address}
+              dao={dao}
+            />
           )}
         </div>
         <div className="main-table__td">
           {dao.name === "Berezka ETH" || dao.name === "berezkablastdao" ? (
             "—"
           ) : (
-            <APY tokenAddress={address} decimals={0} />
+            <APY
+              tokenAddress={daoesStore.tokenInfo[dao.id].address}
+              decimals={0}
+              apy={dao.DaoInfo.apy_total_in_usd}
+            />
           )}
         </div>
         <div className="main-table__td">
@@ -70,6 +80,6 @@ function AssetTableRow(props) {
       />
     </>
   );
-}
+});
 
 export default React.memo(AssetTableRow);

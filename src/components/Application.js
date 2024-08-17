@@ -6,6 +6,9 @@ import CountryBlock from "./CountryBlock";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { fillTokens } from "./widgets/daoes";
 import { userStore } from "./domen/userStore";
+import { daoesStore } from "./domen/daoesStore";
+import { observer } from "mobx-react-lite";
+import { toJS } from "mobx";
 
 const providerOptions = {
   walletconnect: {
@@ -23,12 +26,11 @@ const web3Modal = new Web3Modal({
   providerOptions,
 });
 
-const Application = () => {
+const Application = observer(() => {
   const [web3Local, setWeb3Local] = useState(null);
   const [web3Global, setweb3Global] = useState(null);
   const [address, setAddress] = useState(null);
   const [countryCode, setCountryCode] = useState(null);
-  const [tokenFilled, setTokenFilled] = useState(false);
 
   const connectWeb3 = useCallback(async () => {
     const provider = await web3Modal.connect();
@@ -79,15 +81,15 @@ const Application = () => {
     fn();
   }, [countryCode]);
 
-  useEffect(() => {
-    const fn = async () => {
-      await fillTokens();
-      setTokenFilled(true);
-    };
-    fn();
-  });
+  // useEffect(() => {
+  //   const fn = async () => {
+  //     await fillTokens();
+  //     setTokenFilled(true);
+  //   };
+  //   fn();
+  // });
 
-  if (!tokenFilled) {
+  if (!daoesStore.isLoadedDaoes) {
     return <></>;
   }
 
@@ -105,6 +107,6 @@ const Application = () => {
       </CountryBlock>
     </>
   );
-};
+});
 
 export default Application;

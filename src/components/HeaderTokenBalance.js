@@ -1,9 +1,12 @@
 import React from "react";
-import { tokenInfo } from "./data/tokens";
+// import { tokenInfo } from "./data/tokens";
 import { DaoLiquidity } from "./widgets/DaoLiquidity";
 import TokenOnChainValidation from "./TokenOnChainValidation";
+import { daoesStore } from "./domen/daoesStore";
+import { observer } from "mobx-react-lite";
 
-function HeaderTokenBalance(props) {
+const HeaderTokenBalance = observer((props) => {
+  const tokenInfo = daoesStore.tokenInfo;
   const token = props.match.params.id;
   const tokenAddress = tokenInfo[token].address;
 
@@ -17,6 +20,6 @@ function HeaderTokenBalance(props) {
       <TokenOnChainValidation token={token} />
     </>
   );
-}
+});
 
 export default HeaderTokenBalance;

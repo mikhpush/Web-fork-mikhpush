@@ -1,9 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { defaultToken } from "./data/tokens";
+// import { defaultToken } from "./data/tokens";
+import { daoesStore } from "./domen/daoesStore";
+import { observer } from "mobx-react-lite";
 
-function Footer(props) {
+const Footer = observer((props) => {
   const { isBlocked } = props;
+  const defaultToken = daoesStore.defaultToken;
+
   return (
     <footer className="footer">
       <div className="footer__contacts">
@@ -37,7 +41,7 @@ function Footer(props) {
             <Link className="button _light" to="/dashboard">
               Dashboard
             </Link>
-            <Link className="button" to={`/#${defaultToken[0]}`}>
+            <Link className="button" to={`/${defaultToken[0]}`}>
               Join Dao
             </Link>
           </div>
@@ -47,6 +51,6 @@ function Footer(props) {
       )}
     </footer>
   );
-}
+});
 
 export default Footer;

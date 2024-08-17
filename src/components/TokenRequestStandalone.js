@@ -1,8 +1,10 @@
 import React from "react";
-import { tokenInfo, tokens, currencies, currencyInfo } from "./data/tokens";
+import { currencies, currencyInfo } from "./data/tokens";
 import Select from "./Select";
+import { daoesStore } from "./domen/daoesStore";
+import { observer } from "mobx-react-lite";
 
-function TokenRequestStandalone(props) {
+const TokenRequestStandalone = observer((props) => {
   const {
     setRequestedToken,
     setOfferedToken,
@@ -15,6 +17,8 @@ function TokenRequestStandalone(props) {
     performTokenRequest,
     canPerformTokenRequest,
   } = props;
+  const tokenInfo = daoesStore.tokenInfo;
+  const tokens = daoesStore.tokens;
 
   return (
     <div className="inner">
@@ -88,6 +92,6 @@ function TokenRequestStandalone(props) {
       </form>
     </div>
   );
-}
+});
 
 export default TokenRequestStandalone;

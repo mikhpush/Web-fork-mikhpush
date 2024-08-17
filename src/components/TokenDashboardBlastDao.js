@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { tokenInfo } from "./data/tokens";
+// import { tokenInfo } from "./data/tokens";
 import { admins } from "./data/admin";
 
 import TokenCarry from "./widgets/TokenCarry";
@@ -7,13 +7,16 @@ import { useBlastData } from "./widgets/useBlastData";
 import { fetchBlastSourcegraph } from "./widgets/ExternalBlastDao";
 import { TokenAmountGraphBlastDao } from "./widgets/TokenAmountGraphBlastDao";
 import { PortfolioPartsBlastDao } from "./widgets/PortfolioPartsBlastDao";
+import { daoesStore } from "./domen/daoesStore";
+import { observer } from "mobx-react-lite";
 
-export function TokenDashboardBlastDao(props) {
+export const TokenDashboardBlastDao = observer((props) => {
   const token = props.match.params.id;
   const { address } = props;
   const tokenAddress = tokenInfo[token].address;
   const isLegacy = tokenInfo[token].isLegacy;
   const isAdmin = address && admins.includes(address.toLowerCase());
+  const tokenInfo = daoesStore.tokenInfo;
 
   const { blastTotal, isLoading, blastLiquidity } = useBlastData(
     address,
@@ -26,7 +29,7 @@ export function TokenDashboardBlastDao(props) {
 
   return (
     <>
-      <div class="info-carry">
+      <div className="info-carry">
         Accumulated Carry:{" "}
         <TokenCarry
           tokenAddress={tokenAddress}
@@ -117,4 +120,4 @@ export function TokenDashboardBlastDao(props) {
       </div>
     </>
   );
-}
+});

@@ -1,12 +1,8 @@
 import { fetchCached } from "./cache";
 import { round } from "./round";
-import {
-  tokenInfo,
-  tokens,
-  defaultToken,
-  tokenAddresses,
-} from "../data/tokens";
 import { checkIsBlastDao } from "./checkIsBlastDao";
+import { daoesStore } from "../domen/daoesStore";
+import { toJS } from "mobx";
 
 const API_HOST = process.env.REACT_APP_API_HOST || "";
 const API_BASE = API_HOST + "/api/v1/public/daos";
@@ -15,14 +11,14 @@ const DEFAULT_PAGINATION = {
   page: 1,
 };
 
-export const fetchCommonAll = async (tokens) => {
-  let result = [];
-  for (let token of tokens) {
-    const tokenResult = await getDaoSummary(token);
-    result = [...result, ...tokenResult];
-  }
-  return result;
-};
+// export const fetchCommonAll = async (tokens) => {
+//   let result = [];
+//   for (let token of tokens) {
+//     const tokenResult = await getDaoSummary(token);
+//     result = [...result, ...tokenResult];
+//   }
+//   return result;
+// };
 
 export const fetchDaos = async () => {
   const daoes = await fetchCached(API_BASE, {
@@ -32,37 +28,43 @@ export const fetchDaos = async () => {
   return daoes.filter((dao) => dao.active).filter((dao) => dao.visible);
 };
 
-export const fillTokens = async () => {
-  const daoes = await fetchDaos();
-  tokens.splice(0, tokens.length);
-  tokenAddresses.splice(0, tokenAddresses.length);
-  defaultToken[0] = daoes[0].id;
-  for (let dao of daoes) {
-    tokenInfo[dao.id] = {
-      baseTokenSymbol: dao.base_currency,
-      name: dao.display_name,
-      fullName: dao.display_name,
-      address: dao.token.contract,
-      tableName: dao.display_name,
-      symbol: dao.token.symbol,
-      dao: dao.token_request_contract_address,
-      withdrawAgent: dao.withdraw_agent_address,
-      withdrawEnabled: dao.withdraw_enabled,
-      depositEnabled: dao.deposit_enabled,
-      isDexEnabled: false,
-      minDepositAmount: dao.min_deposit_amount,
-    };
+// export const fillTokens = (daoes, tokens, tokenAddresses, defaultToken) => {
+//   // const daoes = await fetchDaos();
+//   tokens.splice(0, tokens.length);
+//   tokenAddresses.splice(0, tokenAddresses.length);
+//   defaultToken[0] = daoes[0].id;
+//   for (let dao of daoes) {
+//     tokenInfo[dao.id] = {
+//       baseTokenSymbol: dao.base_currency,
+//       name: dao.display_name,
+//       fullName: dao.display_name,
+//       address: dao.token.contract,
+//       tableName: dao.display_name,
+//       symbol: dao.token.symbol,
+//       dao: dao.token_request_contract_address,
+//       withdrawAgent: dao.withdraw_agent_address,
+//       withdrawEnabled: dao.withdraw_enabled,
+//       depositEnabled: dao.deposit_enabled,
+//       isDexEnabled: false,
+//       minDepositAmount: dao.min_deposit_amount,
+//       apy: dao.DaoInfo.apy_total_in_usd,
+//     };
 
-    tokens.push(dao.id);
-    tokenAddresses.push(dao.token.contract);
-  }
-};
+//     tokens.push(dao.id);
+//     tokenAddresses.push(dao.token.contract);
+//   }
+// };
 
 export const fetchDao = async (tokenAddress) => {
-  const daoes = await fetchDaos();
-  const dao = daoes.find(
-    (dao) => dao.token.contract.toLowerCase() === tokenAddress.toLowerCase()
-  );
+  // const daoes = await fetchDaos();
+  const daoes = daoesStore.getDaoesSelector();
+  let dao;
+  if (tokenAddress) {
+    dao = daoes.find(
+      (dao) => dao.token.contract.toLowerCase() === tokenAddress.toLowerCase()
+    );
+    console.log(toJS(dao.token.contract));
+  }
   if (!dao) {
     console.error(`Unable to get DAO for token address ${tokenAddress}`);
     return null;
@@ -70,28 +72,27 @@ export const fetchDao = async (tokenAddress) => {
   return dao;
 };
 
-export const fetchDaoByName = async (name) => {
-  if (!tokenInfo[name]) {
-    console.error(`Unable to find DAO for name ${name}`);
-    return null;
-  }
-  return fetchDao(tokenInfo[name].address);
-};
+// export const fetchDaoByName = async (name) => {
+//   if (!tokenInfo[name]) {
+//     console.error(`Unable to find DAO for name ${name}`);
+//     return null;
+//   }
+//   return fetchDao(tokenInfo[name].address);
+// };
 
-export const getAvailableDaos = async () => {
-  const daoes = await fetchDaos();
+export const getAvailableDaos = async (daoes, tokenInfo, tokens) => {
   const contractAddresses = daoes.map((dao) =>
     dao.token.contract.toLowerCase()
   );
   const tokenNames = Object.keys(tokenInfo);
-  const availableContracts = tokenNames.filter((token) =>
-    contractAddresses.includes(tokenInfo[token].address.toLowerCase())
-  );
+  const availableContracts = tokenNames.filter((token) => {
+    return contractAddresses.includes(tokenInfo[token].address.toLowerCase());
+  });
   return tokens.filter((t) => availableContracts.includes(t));
 };
 
-export const fetchTokensFull = async () => {
-  const daoes = await fetchDaos();
+export const fetchTokensFull = async (daoes, tokenInfo) => {
+  // const daoes = await fetchDaos();
 
   const tokenAddresses = daoes.map((dao) => dao.token.contract.toLowerCase());
   const tokenNames = Object.keys(tokenInfo);
@@ -136,7 +137,7 @@ export const getDaoSummary = async (tokenAddress, precision = 3) => {
         dayId: round(new Date().getTime() / 1000 / 86400, 0),
         price: "0",
         priceInBaseToken: "0",
-        token: tokenAddress.toLowerCase(),
+        token: tokenAddress?.toLowerCase(),
         supply: "0",
         totalPrice: "0",
         totalPriceInBaseToken: "0",

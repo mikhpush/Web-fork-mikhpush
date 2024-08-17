@@ -1,7 +1,7 @@
 import { fetchCached } from "./cache";
-import { tokenInfo, nameByAddress } from "../data/tokens";
+// import { tokenInfo, nameByAddress } from "../data/tokens";
 
-export const fetchClient = async (address) => {
+export const fetchClient = async (address, tokenInfo) => {
   const daosUserAccounts = await fetchCached(
     `/api/v1/public/clients/${address}/info`
   ).then((res) => res.data);
@@ -32,8 +32,8 @@ export const fetchClient = async (address) => {
     }));
 };
 
-export const getDaoUserAccount = async (address, daoId) => {
-  const daosUserAccounts = await fetchClient(address);
+export const getDaoUserAccount = async (address, daoId, tokenInfo) => {
+  const daosUserAccounts = await fetchClient(address, tokenInfo);
   const currentDaoAccount = daosUserAccounts.find(
     (dao) => dao.daoId.toLowerCase() === daoId.toLowerCase()
   );

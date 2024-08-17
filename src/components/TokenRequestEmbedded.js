@@ -1,7 +1,9 @@
-import React from "react";
-import { tokenInfo } from "./data/tokens";
+import React, { useEffect } from "react";
+// import { tokenInfo } from "./data/tokens";
 import { exchanges, tokenExchanges } from "./data/exchanges";
 import Select from "./Select";
+import { daoesStore } from "./domen/daoesStore";
+import { observer } from "mobx-react-lite";
 
 const validateDigitalInput = (input) => {
   if (!isNaN(input)) {
@@ -60,7 +62,7 @@ function Withdraw(props) {
   );
 }
 
-function TokenRequestEmbedded(props) {
+const TokenRequestEmbedded = observer((props) => {
   const {
     setRequestedToken,
     setOfferedToken,
@@ -80,6 +82,14 @@ function TokenRequestEmbedded(props) {
     acceptableTokens,
   } = props;
 
+  let tokenInfo = {};
+  useEffect(() => {
+    tokenInfo = daoesStore.tokenInfo;
+  }, [daoesStore.tokenInfo.length]);
+
+  if (!daoesStore.tokenInfo.length) {
+    return <></>;
+  }
   return (
     <>
       <tr className="desktop_only">
@@ -216,7 +226,9 @@ function TokenRequestEmbedded(props) {
                       "button _medium" +
                       (canPerformTokenRequest ? "" : " _disabled")
                     }
-                    href={tokenExchanges[requestedToken][exchange] || "#"}
+                    href={
+                      tokenExchanges[requestedToken][exchange].toString() || "#"
+                    }
                     onClick={performTokenRequest}
                   >
                     Buy on {exchanges[exchange]}
@@ -228,6 +240,6 @@ function TokenRequestEmbedded(props) {
       )}
     </>
   );
-}
+});
 
 export default TokenRequestEmbedded;
